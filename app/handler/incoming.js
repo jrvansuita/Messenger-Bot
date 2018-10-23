@@ -33,6 +33,6 @@ module.exports = class Incoming{
 
 
 function receivedMessage(msg){
-  var text = msg.message.text;
+  var text = msg.text;
   console.log(text);
 }

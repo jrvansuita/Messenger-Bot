@@ -12,13 +12,19 @@ app.use(bodyParser.urlencoded({
 }));
 
 
+var Incoming = require('./app/handler/incoming.js');
+
 app.post("/", (req, res) => {
   res.sendStatus(200);
 
-  handleIncoming(req.body, res);
+  new Incoming().handle(req.body);
 });
 
 
 process.on('uncaughtException', function (err) {
   console.log(err);
 });
+
+
+
+require('./app/test/tester.js').run();
