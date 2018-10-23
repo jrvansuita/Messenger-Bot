@@ -1,9 +1,9 @@
-module.exports = class Incoming{
+module.exports = class Screening{
 
   static handle(data){
     new Incoming().handle(data);
   }
-  
+
 
   handle(data){
     // Make sure this is a page subscription
