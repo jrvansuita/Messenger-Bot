@@ -14,6 +14,11 @@ app.use(bodyParser.urlencoded({
 
 app.post("/", (req, res) => {
   res.sendStatus(200);
-  
+
   handleIncoming(req.body, res);
+});
+
+
+process.on('uncaughtException', function (err) {
+  console.log(err);
 });
