@@ -1,4 +1,10 @@
 module.exports = class Incoming{
+
+  static handle(data){
+    new Incoming().handle(data);
+  }
+  
+
   handle(data){
     // Make sure this is a page subscription
     if (data.object == 'page') {

@@ -2,7 +2,6 @@ var testObject = {"object":"page","entry":[{"id":"1015011101963764","time":15403
 
 module.exports={
   run(){
-    var Incoming = require('../handler/incoming.js');
-    new Incoming().handle(testObject);
+    require('../handler/incoming.js').handle(testObject);
   }
 };

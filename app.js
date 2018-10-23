@@ -1,7 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 
-
 var app = express();
 
 app.use(bodyParser.json());
@@ -11,13 +10,18 @@ app.use(bodyParser.urlencoded({
   parameterLimit: 99999999
 }));
 
+app.set('port', process.env.PORT || 3000);
 
-var Incoming = require('./app/handler/incoming.js');
+app.get("/", (req, res) => {
+  main(req, res);
+});
 
 app.post("/", (req, res) => {
-  res.sendStatus(200);
+  main(req, res);
+});
 
-  new Incoming().handle(req.body);
+app.listen(app.get('port'), function() {
+  console.log('Node is running on port ', app.get('port'));
 });
 
 
@@ -26,5 +30,14 @@ process.on('uncaughtException', function (err) {
 });
 
 
+main = (req, res)=>{
+  var goon = require('./app/fb/challenge.js').handle(req.url, res);
 
-require('./app/test/tester.js').run();
+  if (goon){
+    require('./app/handler/incoming.js').handle(req.body);
+    res.sendStatus(200);
+  }
+};
+
+
+//require('./app/test/tester.js').run();
