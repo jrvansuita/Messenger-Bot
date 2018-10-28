@@ -43,6 +43,7 @@ module.exports = class Screening{
 
 
 function receivedMessage(messagingEvent){
+  console.log(messagingEvent);
   Profile.find(messagingEvent.sender.id, (user)=>{
     var inputBundle = InputBundle
     .fromProfile(user)
