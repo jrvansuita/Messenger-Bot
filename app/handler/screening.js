@@ -1,6 +1,7 @@
 const InputBundle = require('../bean/input-bundle.js');
 const Profile = require('../fb/profile.js');
 const Logic = require('../handler/logic.js');
+const Returner = require('../fb/returner.js');
 
 module.exports = class Screening{
 
@@ -43,11 +44,13 @@ module.exports = class Screening{
 
 function receivedMessage(messagingEvent){
   Profile.find(messagingEvent.sender.id, (user)=>{
-    var inputBundle = InputBundle.fromProfile(user,  messagingEvent.message.text);
+    var inputBundle = InputBundle
+    .fromProfile(user)
+    .setInputMessage(messagingEvent);
 
     new Logic(inputBundle)
     .result((data)=>{
-       console.log(data);
+      new Returner(messagingEvent).sendText(data);
     }).run();
   });
 }

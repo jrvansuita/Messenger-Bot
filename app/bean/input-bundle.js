@@ -7,12 +7,18 @@ module.exports = class InputBundle{
     this.date = new Date();
   }
 
-  static fromProfile(user, input){
-    return new InputBundle(user.id, user.first_name + ' ' +  user.last_name,  input);
+  static fromProfile(user, input, recipientId){
+    return new InputBundle(user.id, user.first_name + ' ' +  user.last_name);
+  }
+
+  setInputMessage(messagingEvent){
+    this.input = messagingEvent.message.text;
+    return this;
   }
 
   setResponse(response){
     this.response = response;
+    return this;
   }
 
   hasResponse(){
