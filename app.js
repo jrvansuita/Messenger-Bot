@@ -22,12 +22,10 @@ app.post("/", (req, res) => {
   main(req, res);
 });
 
-app.listen(app.get('port'), function() {
-  console.log('Node is running on port ', app.get('port'));
-});
+app.listen(app.get('port'));
 
 process.on('uncaughtException', function (err) {
-  console.log(err);
+  Log.error(err);
 });
 
 main = (req, res)=>{

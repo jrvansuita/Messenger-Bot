@@ -11,23 +11,20 @@ module.exports = class Logic{
     if (onResult){
       this.onResult = onResult;
     }else{
-      Storer.handle(this.inputBundle, (err, msg)=>{
+      Storer.handle(this.inputBundle, (err)=>{
         if (this.onResult){
           this.onResult(this.inputBundle);
         }
       });
-
     }
 
     return this;
   }
 
   run(){
-    console.log('Logic starts');
-
     new Matcher(this.inputBundle.input)
     .error((err)=>{
-      console.log('Error -> ' +  err.toString());
+      Log.error(err);
     })
     .miss(()=>{
       this.result();

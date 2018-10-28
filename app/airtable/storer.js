@@ -30,13 +30,13 @@ module.exports= class Storer{
 
 function store(inputBundle, table, callback) {
   AirBase(table).create(inputBundle, (err, record) =>{
-    var msg = table + ' - Sent to airtable';
-    console.log(msg);
 
     if(err){
-      console.log(err);
+      Log.error(err);
+    }else{
+      Log.info('Stored', 'AirTable ' + table);
     }
 
-    callback(err, msg);
+    callback(err);
   });
 }

@@ -1,7 +1,7 @@
 const InputBundle = require('../bean/input-bundle.js');
 const Profile = require('../fb/profile.js');
 const Logic = require('../handler/logic.js');
-const Returner = require('../fb/returner.js');
+const Returner = require('../fb/returns/returner.js');
 
 module.exports = class Screening{
 
@@ -43,7 +43,6 @@ module.exports = class Screening{
 
 
 function receivedMessage(messagingEvent){
-  console.log(messagingEvent);
   Profile.find(messagingEvent.sender.id, (user)=>{
     var inputBundle = InputBundle
     .fromProfile(user)

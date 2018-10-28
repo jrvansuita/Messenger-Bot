@@ -32,8 +32,9 @@ module.exports = class Matcher{
       });
 
      if (match){
-       console.log('Matches');
-       callback(Treat.choose(response));
+       response = Treat.choose(response);
+       Log.info('Match', response);
+       callback(response);
      }else{
        fetchNextPage();
      }
@@ -41,7 +42,7 @@ module.exports = class Matcher{
        if (err && this.onErrorListener) { this.onErrorListener(err); return; }
 
        if (!match && this.onMissListener){
-         console.log('Missed');
+         Log.info('Missed', this.input);
          this.onMissListener();
        }
     });

@@ -6,3 +6,6 @@ require('../airtable/airbase.js');
 
 //Load all Mongoose
 //require('../mongoose/mongoose.js');
+
+require('../util/util.js');
+require('../util/log.js');
