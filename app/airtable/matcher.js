@@ -20,6 +20,8 @@ module.exports = class Matcher{
   found(callback){
     var match = false;
 
+    Log.info('Try', this.input);
+
     AirBase('Responses')
     .select({ pageSize: 50, view: "Criteria Order"})
     .eachPage((records, fetchNextPage) => {
