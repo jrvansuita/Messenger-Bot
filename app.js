@@ -34,7 +34,7 @@ main = (req, res)=>{
   var goon = require('./app/fb/challenge.js').handle(req.url, res);
 
   if (goon){
-    require('./app/handler/Screening.js').handle(req.body);
+    require('./app/handler/screening.js').handle(req.body);
     res.sendStatus(200);
   }
 };
