@@ -1,3 +1,5 @@
+require('./app/init/init.js');
+
 var express = require('express');
 var bodyParser = require('body-parser');
 
@@ -24,11 +26,9 @@ app.listen(app.get('port'), function() {
   console.log('Node is running on port ', app.get('port'));
 });
 
-
 process.on('uncaughtException', function (err) {
   console.log(err);
 });
-
 
 main = (req, res)=>{
   var goon = require('./app/fb/challenge.js').handle(req.url, res);

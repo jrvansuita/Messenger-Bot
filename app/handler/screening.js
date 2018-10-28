@@ -1,9 +1,12 @@
+const InputBundle = require('../bean/input-bundle.js');
+const Profile = require('../fb/profile.js');
+const Logic = require('../handler/logic.js');
+
 module.exports = class Screening{
 
   static handle(data){
-    new Incoming().handle(data);
+    new Screening().handle(data);
   }
-
 
   handle(data){
     // Make sure this is a page subscription
@@ -19,7 +22,7 @@ module.exports = class Screening{
           if (messagingEvent.optin) {
             //receivedAuthentication(messagingEvent);
           } else if (messagingEvent.message) {
-            receivedMessage(messagingEvent.message);
+            receivedMessage(messagingEvent);
           } else if (messagingEvent.delivery) {
             //receivedDeliveryConfirmation(messagingEvent);
           } else if (messagingEvent.postback) {
@@ -38,7 +41,13 @@ module.exports = class Screening{
 };
 
 
-function receivedMessage(msg){
-  var text = msg.text;
-  console.log(text);
+function receivedMessage(messagingEvent){
+  Profile.find(messagingEvent.sender.id, (user)=>{
+    var inputBundle = InputBundle.fromProfile(user,  messagingEvent.message.text);
+
+    new Logic(inputBundle)
+    .result((data)=>{
+       console.log(data);
+    }).run();
+  });
 }
