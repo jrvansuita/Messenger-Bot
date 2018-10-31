@@ -63,7 +63,12 @@ module.exports = class Returner{
 
       if (blocks.is()){
         blocks.find((parts)=>{
-          this.sendTextParts(parts, 0);
+          if (typeof parts == 'string'){
+            this.sendText(parts);
+          }else{
+            this.sendTextParts(parts, 0);
+          }
+
         });
       }else{
         this.sendText(text);
