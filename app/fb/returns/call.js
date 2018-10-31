@@ -16,6 +16,8 @@ module.exports = class Call{
     }else if (data.message){
       if (data.message.text){
         msg = data.message.text;
+      }else if (data.message.attachment){
+        msg = data.message.attachment.payload.text + " - " + data.message.attachment.payload.buttons.map((i)=>{return i.title;}).join('|');
       }
     }
 

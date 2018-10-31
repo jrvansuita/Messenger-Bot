@@ -28,7 +28,7 @@ module.exports = class Screening{
             //receivedDeliveryConfirmation(messagingEvent);
           } else if (messagingEvent.postback) {
             console.log('recebi um postback');
-            console.log(data);
+            console.log(JSON.stringify(messagingEvent));
             //receivedPostback(messagingEvent);
           } else if (messagingEvent.read) {
             //receivedMessageRead(messagingEvent);

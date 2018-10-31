@@ -58,7 +58,6 @@ module.exports = class Returner{
 
       if (buttons){
         data = this._getReturnButton(text, buttons);
-        console.log(JSON.stringify(data));
       }else{
         data = this._getReturn();
         data.message = {
