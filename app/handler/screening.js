@@ -56,3 +56,15 @@ function receivedMessage(messagingEvent){
     }).run();
   });
 }
+
+
+
+function receivedPostback(messagingEvent){
+  Profile.find(messagingEvent.sender.id, (user)=>{
+    var inputBundle = InputBundle
+    .fromProfile(user)
+    .setInputMessage(messagingEvent);
+
+    new Returner(messagingEvent).redirectBlock(messagingEvent.postback.payload);
+  });
+}

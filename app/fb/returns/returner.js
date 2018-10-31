@@ -97,6 +97,16 @@ module.exports = class Returner{
       }
     }
   }
+
+  redirectBlock(blockName){
+    var blocks = new Blocks(blockName);
+
+    if (blocks.is()){
+      blocks.find((blocks)=>{
+        this.sendTextParts(blocks, 0);
+      });
+    }
+  }
 };
 
 function calcDelay(text){
