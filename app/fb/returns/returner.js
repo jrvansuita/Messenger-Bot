@@ -113,7 +113,7 @@ module.exports = class Returner{
 };
 
 function calcDelay(text){
-  return text.length * 50;
+  return text.length * 20;
 }
 
 function post(data, callback){
