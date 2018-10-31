@@ -7,7 +7,7 @@ module.exports = class Returner{
     this.typing_on = false;
   }
 
-  _getReturnBundle(){
+  _getReturn(){
     return {
       recipient: {
         id: this.senderID
@@ -15,8 +15,26 @@ module.exports = class Returner{
     };
   }
 
+  _getReturnButton(text, buttons){
+    return {
+      recipient: {
+        id: this.senderID
+      },
+      message: {
+        attachment: {
+          type: "template",
+          payload: {
+            text : text,
+            buttons: getButtons(buttons),
+            template_type: "button"
+          }
+        }
+      }
+    };
+  }
+
   sendTypingOff(delay, callback) {
-    var data = this._getReturnBundle();
+    var data = this._getReturn();
 
     data.sender_action = this.typing_on ?  "typing_off" :  "typing_on";
     this.typing_on = !this.typing_on;
@@ -34,24 +52,34 @@ module.exports = class Returner{
     });
   }
 
-  sendText(text, callback){
+  sendText(text, buttons, callback){
     this.sendTypingOff(calcDelay(text), ()=>{
-      var data = this._getReturnBundle();
+      var data;
 
-      data.message = {
-        text : text
-      };
+      if (buttons){
+        data = this._getReturnButton(text, buttons);
+        console.log(JSON.stringify(data));
+      }else{
+        data = this._getReturn();
+        data.message = {
+          text : text
+        };
+      }
 
       post(data, callback);
     });
   }
 
-  sendTextParts(arr, index){
-    if (arr[index]){
-      this.sendText(arr[index], ()=>{
-        index++;
-        this.sendTextParts(arr, index);
-      });
+  sendTextParts(blocks, index){
+    if (Array.isArray(blocks.parts)){
+      if (blocks.parts[index]){
+        this.sendText(blocks.parts[index], (index == (blocks.parts.length-1)) ? blocks.buttons : null, ()=>{
+          index++;
+          this.sendTextParts(blocks, index);
+        });
+      }
+    }else{
+      this.sendText(blocks.parts);
     }
   }
 
@@ -62,13 +90,8 @@ module.exports = class Returner{
       var blocks = new Blocks(text);
 
       if (blocks.is()){
-        blocks.find((parts)=>{
-          if (typeof parts == 'string'){
-            this.sendText(parts);
-          }else{
-            this.sendTextParts(parts, 0);
-          }
-
+        blocks.find((blocks)=>{
+          this.sendTextParts(blocks, 0);
         });
       }else{
         this.sendText(text);
@@ -83,4 +106,32 @@ function calcDelay(text){
 
 function post(data, callback){
   new Call(data).post(callback);
+}
+
+function getButtons(buttonsArr){
+  var buttons = [];
+  buttonsArr.forEach(function(item){
+    buttons.push(buildButton(item));
+  });
+
+  return buttons;
+}
+
+function buildButton(str){
+  var button = {};
+
+  if (str.includes('@')){
+    button.title = str.split('@')[0].trim();
+    var ref = str.split('@')[1];
+    button.type = isUrl(ref) ? "web_url" : "postback";
+
+    if (isUrl(ref)){
+      button.url = ref.trim();
+    }else{
+      button.payload = '[' + ref.trim() + ']';
+    }
+  }
+
+  return button;
+
 }

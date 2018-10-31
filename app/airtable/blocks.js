@@ -11,7 +11,7 @@ module.exports = class Blocks{
   }
 
   find(callback){
-    var blockParts;
+    var blocks;
 
     Log.info('Block', this.blockName);
 
@@ -23,11 +23,14 @@ module.exports = class Blocks{
         return record.get('Block') == this.blockName;
       });
 
-      blockParts = Treat.blocks(record.get('Content'));
+      var blocks = {
+        parts : Treat.blocks(record.get('Content')),
+        buttons: Treat.blocks(record.get('Buttons'))
+      };
 
-      if (blockParts){
+      if (blocks){
          if (callback){
-           callback(blockParts);
+           callback(blocks);
          }
       }else{
         fetchNextPage();
@@ -35,7 +38,7 @@ module.exports = class Blocks{
     },(err) => {
       if (err) { Log.error(err); return; }
 
-      if (!blockParts){
+      if (!blocks){
         Log.info('Block Missed', this.blockName);
       }
     });

@@ -35,7 +35,7 @@ module.exports={
     var isBlockParts = ['[',']'].every(val => parts.includes(val));
 
     if (isBlockParts){
-      return parts.replace(/]s*,*/g,']|[').replace(/[\[\]]/g,'').split('|');
+      return parts.replace(/]s*,/g,']|[').replace(/[\[\]]/g,'').split('|');
     }
 
     return parts.toString();
