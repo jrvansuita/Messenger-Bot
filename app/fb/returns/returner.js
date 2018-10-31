@@ -4,7 +4,9 @@ const Blocks = require('../../airtable/blocks.js');
 module.exports = class Returner{
   constructor(messagingEvent){
     this.senderID = messagingEvent.sender.id;
-    this.postbackName = messagingEvent.postback.payload;
+    if (messagingEvent.postback){
+      this.postbackName = messagingEvent.postback.payload;
+    }
     this.typing_on = false;
   }
 

@@ -20,7 +20,7 @@ module.exports = class Blocks{
     .eachPage((records, fetchNextPage) => {
 
       var record = records.find((record) => {
-        return record.get('Block') == this.blockName;
+        return record.get('Block').toLowerCase() == this.blockName.toLowerCase();
       });
 
       var blocks = {

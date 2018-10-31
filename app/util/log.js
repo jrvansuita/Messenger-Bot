@@ -6,8 +6,10 @@ global.Log ={
 
   error(e){
     var message = e.toString();
-    message += "\n" + e.stack.split("\n")[1];
-  
+    if (e.stack){
+      message += "\n" + e.stack.split("\n")[1];
+    }
+
     this.info('Error', message);
   }
 };
