@@ -4,6 +4,7 @@ const Blocks = require('../../airtable/blocks.js');
 module.exports = class Returner{
   constructor(messagingEvent){
     this.senderID = messagingEvent.sender.id;
+    this.postback = messagingEvent.postback.payload;
     this.typing_on = false;
   }
 
@@ -98,8 +99,8 @@ module.exports = class Returner{
     }
   }
 
-  redirectBlock(blockName){
-    var blocks = new Blocks(blockName);
+  postback(){
+    var blocks = new Blocks(this.postback);
 
     if (blocks.is()){
       blocks.find((blocks)=>{

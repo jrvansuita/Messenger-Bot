@@ -27,9 +27,7 @@ module.exports = class Screening{
           } else if (messagingEvent.delivery) {
             //receivedDeliveryConfirmation(messagingEvent);
           } else if (messagingEvent.postback) {
-            console.log('recebi um postback');
-            console.log(JSON.stringify(messagingEvent));
-            //receivedPostback(messagingEvent);
+            receivedPostback(messagingEvent);
           } else if (messagingEvent.read) {
             //receivedMessageRead(messagingEvent);
           } else if (messagingEvent.account_linking) {
@@ -62,9 +60,8 @@ function receivedMessage(messagingEvent){
 function receivedPostback(messagingEvent){
   Profile.find(messagingEvent.sender.id, (user)=>{
     var inputBundle = InputBundle
-    .fromProfile(user)
-    .setInputMessage(messagingEvent);
+    .fromProfile(user);
 
-    new Returner(messagingEvent).redirectBlock(messagingEvent.postback.payload);
+    new Returner(messagingEvent).postback();
   });
 }
