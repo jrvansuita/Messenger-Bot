@@ -132,11 +132,12 @@ function buildButton(str){
 
   if (str.includes('@')){
     button.title = str.split('@')[0].trim();
-    var ref = str.split('@')[1];
-    button.type = isUrl(ref) ? "web_url" : "postback";
+    var ref = str.split('@')[1].trim();
+    var isUrl = ref.indexOf("http") != -1;
+    button.type = isUrl ? "web_url" : "postback";
 
-    if (isUrl(ref)){
-      button.url = ref.trim();
+    if (isUrl){
+      button.url = ref;
     }else{
       button.payload = '[' + ref.trim() + ']';
     }
