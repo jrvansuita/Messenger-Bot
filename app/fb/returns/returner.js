@@ -1,4 +1,5 @@
 const Call = require('../returns/call.js');
+const Blocks = require('../../airtable/blocks.js');
 
 module.exports = class Returner{
   constructor(messagingEvent){
@@ -23,33 +24,57 @@ module.exports = class Returner{
     post(data, ()=>{
       if (delay && callback){
         sleep(delay).then(()=>{
-          callback();
-
           if (this.typing_on){
             this.sendTypingOff();
           }
+
+          callback();
         });
       }
     });
   }
 
-  sendText(inputBundle){
-    var delay = inputBundle.response.length * 30;
+  sendText(text, callback){
+    this.sendTypingOff(calcDelay(text), ()=>{
+      var data = this._getReturnBundle();
 
-    if (inputBundle.response){
-      this.sendTypingOff(delay, ()=>{
-        var data = this._getReturnBundle();
+      data.message = {
+        text : text
+      };
 
-        data.message = {
-          text : inputBundle.response
-        };
+      post(data, callback);
+    });
+  }
 
-        post(data);
+  sendTextParts(arr, index){
+    if (arr[index]){
+      this.sendText(arr[index], ()=>{
+        index++;
+        this.sendTextParts(arr, index);
       });
+    }
+  }
+
+  send(inputBundle){
+    var text = inputBundle.response;
+
+    if (text){
+      var blocks = new Blocks(text);
+
+      if (blocks.is()){
+        blocks.find((parts)=>{
+          this.sendTextParts(parts, 0);
+        });
+      }else{
+        this.sendText(text);
+      }
     }
   }
 };
 
+function calcDelay(text){
+  return text.length * 50;
+}
 
 function post(data, callback){
   new Call(data).post(callback);

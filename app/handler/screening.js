@@ -49,8 +49,8 @@ function receivedMessage(messagingEvent){
     .setInputMessage(messagingEvent);
 
     new Logic(inputBundle)
-    .result((data)=>{
-      new Returner(messagingEvent).sendText(data);
+    .result((inputBundle)=>{
+      new Returner(messagingEvent).send(inputBundle);
     }).run();
   });
 }

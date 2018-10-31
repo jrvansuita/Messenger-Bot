@@ -23,13 +23,23 @@ module.exports={
   choose : (response) =>{
     var isRandom = ['{','}'].every(val => response.includes(val));
 
-   if (isRandom){
-     var responsesList = response.replace(/}\s*,\s*{/g,'}|{').replace(/[\}\{]/g,'').split('|');
-     return responsesList[Math.floor((Math.random() * (responsesList.length)))];
-   }
+    if (isRandom){
+      var responsesList = response.replace(/}\s*,\s*{/g,'}|{').replace(/[\}\{]/g,'').split('|');
+      return responsesList[Math.floor((Math.random() * (responsesList.length)))];
+    }
 
-   return response;
-}
+    return response;
+  },
+
+  blocks : (parts) =>{
+    var isBlockParts = ['[',']'].every(val => parts.includes(val));
+
+    if (isBlockParts){
+      return parts.replace(/]s*,*/g,']|[').replace(/[\[\]]/g,'').split('|');      
+    }
+
+    return parts;
+  }
 
 
 };
