@@ -2,6 +2,7 @@ const InputBundle = require('../bean/input-bundle.js');
 const Profile = require('../fb/profile.js');
 const Logic = require('../handler/logic.js');
 const Returner = require('../fb/returns/returner.js');
+const Config = require('../airtable/config.js');
 
 module.exports = class Screening{
 
@@ -11,33 +12,35 @@ module.exports = class Screening{
 
   handle(data){
     console.log(JSON.stringify(data));
-    // Make sure this is a page subscription
-    if (data.object == 'page' && data.entry) {
-      // Iterate over each entry
-      // There may be multiple if batched
-      data.entry.forEach(function(pageEntry) {
-        var pageID = pageEntry.id;
-        var timeOfEvent = pageEntry.time;
+    if (Config.get('active')){
+      // Make sure this is a page subscription
+      if (data.object == 'page' && data.entry) {
+        // Iterate over each entry
+        // There may be multiple if batched
+        data.entry.forEach(function(pageEntry) {
+          var pageID = pageEntry.id;
+          var timeOfEvent = pageEntry.time;
 
-        // Iterate over each messaging event
-        pageEntry.messaging.forEach(function(messagingEvent) {
-          if (messagingEvent.optin) {
-            //receivedAuthentication(messagingEvent);
-          } else if (messagingEvent.message) {
-            receivedMessage(messagingEvent);
-          } else if (messagingEvent.delivery) {
-            //receivedDeliveryConfirmation(messagingEvent);
-          } else if (messagingEvent.postback) {
-            receivedPostback(messagingEvent);
-          } else if (messagingEvent.read) {
-            //receivedMessageRead(messagingEvent);
-          } else if (messagingEvent.account_linking) {
-            //receivedAccountLink(messagingEvent);
-          } else {
-            console.log("Webhook received unknown messagingEvent: ", messagingEvent);
-          }
+          // Iterate over each messaging event
+          pageEntry.messaging.forEach(function(messagingEvent) {
+            if (messagingEvent.optin) {
+              //receivedAuthentication(messagingEvent);
+            } else if (messagingEvent.message) {
+              receivedMessage(messagingEvent);
+            } else if (messagingEvent.delivery) {
+              //receivedDeliveryConfirmation(messagingEvent);
+            } else if (messagingEvent.postback) {
+              receivedPostback(messagingEvent);
+            } else if (messagingEvent.read) {
+              //receivedMessageRead(messagingEvent);
+            } else if (messagingEvent.account_linking) {
+              //receivedAccountLink(messagingEvent);
+            } else {
+              console.log("Webhook received unknown messagingEvent: ", messagingEvent);
+            }
+          });
         });
-      });
+      }
     }
   }
 };
