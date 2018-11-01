@@ -21,7 +21,9 @@ module.exports = class Call{
       }
     }
 
-    Log.info('Sent', msg);
+    if (msg){
+      Log.info('Sent', msg);
+    }
   }
 
   post(callback){
