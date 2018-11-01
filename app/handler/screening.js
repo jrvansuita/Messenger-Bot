@@ -10,7 +10,7 @@ module.exports = class Screening{
   }
 
   handle(data){
-    console.log(data);
+    console.log(JSON.stringify(data));
     // Make sure this is a page subscription
     if (data.object == 'page' && data.entry) {
       // Iterate over each entry
