@@ -9,3 +9,5 @@ require('../airtable/airbase.js');
 
 require('../util/util.js');
 require('../util/log.js');
+
+require('../airtable/config.js').load();

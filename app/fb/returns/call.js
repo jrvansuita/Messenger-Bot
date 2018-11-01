@@ -1,4 +1,5 @@
 const request = require('request');
+const Config = require('../../airtable/config.js');
 
 module.exports = class Call{
   constructor(data){
@@ -43,7 +44,7 @@ module.exports = class Call{
 function callSendAPI(data, callback) {
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+    qs: { access_token: Config.get('fb_page_access_token')},
     method: 'POST',
     json: data
 

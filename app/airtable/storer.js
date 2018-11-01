@@ -1,3 +1,5 @@
+const Config = require('../airtable/config.js');
+
 module.exports= class Storer{
 
   constructor(inputBundle){
@@ -17,11 +19,19 @@ module.exports= class Storer{
   }
 
   recognized(callback){
-    store(this.inputBundle, 'Recognized', callback);
+    if (Config.get('store_recognized')){
+      store(this.inputBundle, 'Recognized', callback);
+    }else{
+      callback();
+    }
   }
 
   notRecognized(callback){
-    store(this.inputBundle, 'Not Recognized', callback);
+    if (Config.get('store_not_recognized')){
+      store(this.inputBundle, 'Not Recognized', callback);
+    }else{
+      callback();
+    }
   }
 
 };
