@@ -10,8 +10,9 @@ module.exports = class Screening{
   }
 
   handle(data){
+    console.log(data);
     // Make sure this is a page subscription
-    if (data.object == 'page') {
+    if (data.object == 'page' && data.entry) {
       // Iterate over each entry
       // There may be multiple if batched
       data.entry.forEach(function(pageEntry) {

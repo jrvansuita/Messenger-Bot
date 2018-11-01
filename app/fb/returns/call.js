@@ -10,8 +10,8 @@ module.exports = class Call{
     var msg;
 
     if (data.sender_action){
-      if (data.sender_action.includes('typing')){
-        msg = data.sender_action;
+      if (data.sender_action.includes('typing_on')){
+        msg = 'typing';
       }
     }else if (data.message){
       if (data.message.text){
