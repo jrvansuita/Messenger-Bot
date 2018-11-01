@@ -23,15 +23,15 @@ module.exports = class Blocks{
         return record.get('Block').toLowerCase() == this.blockName.toLowerCase();
       });
 
-      var blocks = {
-        parts : Treat.blocks(record.get('Content')),
-        buttons: Treat.blocks(record.get('Buttons'))
-      };
+      if (record){
+        var blocks = {
+          parts : Treat.blocks(record.get('Content')),
+          buttons: Treat.blocks(record.get('Buttons'))
+        };
 
-      if (blocks){
-         if (callback){
-           callback(blocks);
-         }
+        if (callback){
+          callback(blocks);
+        }
       }else{
         fetchNextPage();
       }

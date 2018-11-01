@@ -32,13 +32,15 @@ module.exports={
   },
 
   blocks : (parts) =>{
-    var isBlockParts = ['[',']'].every(val => parts.includes(val));
+    if (parts){
+      var isBlockParts = ['[',']'].every(val => parts.includes(val));
 
-    if (isBlockParts){
-      return parts.replace(/]s*,/g,']|[').replace(/[\[\]]/g,'').split('|');
+      if (isBlockParts){
+        return parts.replace(/]s*,/g,']|[').replace(/[\[\]]/g,'').split('|');
+      }
     }
 
-    return parts.toString();
+    return parts;
   }
 
 
